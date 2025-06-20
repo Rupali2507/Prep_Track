@@ -1,0 +1,11 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap");
+@import "tailwindcss";
+* {
+  background-color: black;
+  color: white;
+}
+
+.menu.active {
+  /* border: 1px solid #00ffff; */
+  box-shadow: 0 0 10px #00ffff;
+}
