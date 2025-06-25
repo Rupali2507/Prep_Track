@@ -1,6 +1,7 @@
 import React from "react";
 import {
   FaBullseye,
+  FaChevronLeft,
   FaCog,
   FaSignOutAlt,
   FaTh,
@@ -8,20 +9,35 @@ import {
   FaUsers,
 } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 import asests from "../assets/assests";
+import { usePageContext } from "../context/PageContext";
 
 const SideBar = () => {
   const navigate = useNavigate();
+  const { visibility, setVisibility } = usePageContext();
 
   const location = useLocation();
   return (
-    <div>
-      <div className="hidden border-r-2 w-64 h-screen border-gray-800 lg:flex flex-col justify-between">
+    <div className="h-screen fixed">
+      <div
+        className={` ${
+          visibility ? "visible" : "hidden"
+        } border-r-2 w-64 h-full border-gray-800  flex-col justify-between lg:flex`}
+      >
         {/* upper options */}
-        <div className="">
-          <div className="p-6 flex items-center border-gray-700 border-b-1">
-            <img className="  h-[35px]" src={asests.logo} alt="" />
+        <div className=" ">
+          <div className="flex border-gray-700 border-b-1">
+            <div className="p-6 flex items-center ">
+              <img className="  h-[35px]" src={asests.logo} alt="" />
+            </div>
+            <div
+              onClick={() => setVisibility(false)}
+              className=" flex items-center cursor-pointer lg:hidden"
+            >
+              <FaChevronLeft className={`size-5 mr-2`} />
+            </div>
           </div>
 
           <div
@@ -68,7 +84,7 @@ const SideBar = () => {
           </div>
         </div>
         {/* lower options */}
-        <div className="pl-10">
+        <div className="pl-10 absolute bottom-0 ">
           <div className=" w-full pb-5 flex items-center   gap-8 cursor-pointer">
             <FaUser /> Profile
           </div>

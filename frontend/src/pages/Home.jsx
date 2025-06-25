@@ -1,6 +1,7 @@
 import React from "react";
 import { FaArrowRight, FaStar, FaStarHalf } from "react-icons/fa";
 import NavBar from "../components/NavBar";
+import asests from "../assets/assests";
 
 const Home = () => {
   return (
@@ -21,7 +22,7 @@ const Home = () => {
             color: "black",
             boxShadow: "0 0 20px 4px rgba(0, 255, 255, 0.6)",
           }}
-          className="px-10 py-[10px] mt-5 border rounded-2xl cursor-pointer text-lg  "
+          className="px-10 py-[10px] mt-5  rounded-4xl cursor-pointer text-lg  "
         >
           Get started now
         </button>

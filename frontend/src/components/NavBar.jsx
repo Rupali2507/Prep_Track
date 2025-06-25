@@ -3,11 +3,13 @@ import asests from "../assets/assests";
 import { FaBars, FaBell, FaCross, FaCut, FaTimes } from "react-icons/fa";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useNavigate } from "react-router-dom";
 
 const NavBar = () => {
+  const navigate = useNavigate();
   const [navmenu, setnavmenu] = useState(false);
   return (
-    <div className="flex justify-between w-full m-3 lg:px-10 ">
+    <div className="flex justify-between w-full lg:px-10 ">
       <div className="flex justify-between lg:w-2/4 ">
         <div className=" flex items-center pl-5">
           <img className="h-[35px]" src={asests.logo} alt="" />
@@ -15,7 +17,12 @@ const NavBar = () => {
         <div className="hidden lg:flex">
           <div className=" flex items-center p-5 text-md  "> Home </div>
           <div className=" flex items-center p-5 text-md">About</div>
-          <div className=" flex items-center p-5 text-md"> Goals</div>
+          <div
+            onClick={() => navigate("/dashboard")}
+            className=" flex items-center p-5 text-md cursor-pointer"
+          >
+            Dashboard
+          </div>
           <div className=" flex items-center p-5 text-md">Collab Rooms</div>
         </div>
       </div>
