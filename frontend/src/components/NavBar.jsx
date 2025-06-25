@@ -1,15 +1,21 @@
 import React from "react";
 import asests from "../assets/assests";
-import { FaBars, FaBell, FaCross, FaCut, FaTimes } from "react-icons/fa";
+import { FaBars, FaSun, FaMoon, FaCut, FaTimes } from "react-icons/fa";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useNavigate } from "react-router-dom";
+import { usePageContext } from "../context/PageContext";
 
 const NavBar = () => {
   const navigate = useNavigate();
   const [navmenu, setnavmenu] = useState(false);
+  const { darkMode, setDarkMode } = usePageContext();
   return (
-    <div className="flex justify-between w-full lg:px-10 ">
+    <div
+      className={`flex justify-between w-full lg:px-10 absolute shadow-xs shadow-gray-500 ${
+        darkMode ? "" : "bg-[#898a8d]"
+      }`}
+    >
       <div className="flex justify-between lg:w-2/4 ">
         <div className=" flex items-center pl-5">
           <img className="h-[35px]" src={asests.logo} alt="" />
@@ -39,32 +45,59 @@ const NavBar = () => {
             <FaTimes className="m-6 size-[25px] cursor-pointer" />
           </motion.div>
         ) : (
-          <motion.div
-            key="open"
-            initial={{ opacity: 0, rotate: 90 }}
-            animate={{ opacity: 1, rotate: 0 }}
-            exit={{ opacity: 0, rotate: -90 }}
-            transition={{ duration: 0.3 }}
-            onClick={() => setnavmenu(true)}
-          >
-            <FaBars className="lg:hidden flex items-center m-6 size-6 cursor-pointer" />
-          </motion.div>
+          <div className="flex lg:hidden  items-center">
+            <div
+              onClick={() => setDarkMode((prev) => !prev)}
+              className={`${
+                darkMode ? "bg-gray-900" : ""
+              } justify-center flex border  border-gray-700 rounded-full cursor-pointer`}
+            >
+              {darkMode ? (
+                <FaSun className="text-white-500 size-5 m-3" />
+              ) : (
+                <FaMoon className=" size-5 m-3" />
+              )}
+            </div>
+            <motion.div
+              key="open"
+              initial={{ opacity: 0, rotate: 90 }}
+              animate={{ opacity: 1, rotate: 0 }}
+              exit={{ opacity: 0, rotate: -90 }}
+              transition={{ duration: 0.3 }}
+              onClick={() => setnavmenu(true)}
+            >
+              <FaBars className=" items-center m-6 size-6 cursor-pointer" />
+            </motion.div>
+          </div>
         )}
 
         <div className=" hidden lg:flex items-center p-8 gap-4 ">
           <div
-            style={{ backgroundColor: "#00FFFF", color: "black" }}
-            className="px-8 py-1 border rounded-2xl cursor-pointer"
+            onClick={() => setDarkMode((prev) => !prev)}
+            className={`${
+              darkMode ? "bg-gray-900" : ""
+            } justify-center flex border p-3 border-gray-700 rounded-full cursor-pointer`}
+          >
+            {darkMode ? (
+              <FaSun className="text-white-500 size-5" />
+            ) : (
+              <FaMoon className=" size-5" />
+            )}
+          </div>
+          <div
+            className={`${
+              darkMode ? "bg-[#00FFFF] text-black" : "bg-[#456789] text-white"
+            } px-10 py-1 shadow-black shadow-sm rounded-2xl cursor-pointer`}
           >
             Login
           </div>
           <div
-            style={{ backgroundColor: "#00FFFF", color: "black" }}
-            className="px-8 py-1 border rounded-2xl cursor-pointer"
+            className={`${
+              darkMode ? "bg-[#00FFFF] text-black" : "bg-[#456789] text-white"
+            } px-10 py-1 shadow-black shadow-sm  rounded-2xl cursor-pointer`}
           >
             SignIn
           </div>
-          {/* <FaBell className="size-[25px]" /> */}
         </div>
         <div></div>
       </div>
@@ -92,15 +125,21 @@ const NavBar = () => {
               </div>
               <div className="flex  items-center justify-center p-5  text-lg gap-5">
                 <div
-                  style={{ backgroundColor: "#00FFFF", color: "black" }}
-                  className="px-15 py-1 border rounded-2xl cursor-pointer"
+                  className={`${
+                    darkMode
+                      ? "bg-[#00FFFF] text-black"
+                      : "bg-[#456789] text-white"
+                  } px-15 py-1 border rounded-2xl cursor-pointer`}
                 >
                   Login
                 </div>
 
                 <div
-                  style={{ backgroundColor: "#00FFFF", color: "black" }}
-                  className="px-15 py-1 border rounded-2xl cursor-pointer"
+                  className={`${
+                    darkMode
+                      ? "bg-[#00FFFF] text-black"
+                      : "bg-[#456789] text-white"
+                  } px-15 py-1 border rounded-2xl cursor-pointer`}
                 >
                   {" "}
                   SignIn

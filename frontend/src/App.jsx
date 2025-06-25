@@ -6,10 +6,12 @@ import Dashboard from "./pages/Dashboard";
 import Goals from "./pages/Goals";
 import CollabRooms from "./pages/CollabRooms";
 import { ToastContainer } from "react-toastify";
+import { usePageContext } from "./context/PageContext";
 
 const App = () => {
+  const { darkMode } = usePageContext();
   return (
-    <div>
+    <div className={`${darkMode ? "bg-[#13151a] text-white" : "bg-[#f4f0f7]"}`}>
       <ToastContainer
         position="top-right"
         autoClose={3000}

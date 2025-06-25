@@ -1,12 +1,12 @@
 import React from "react";
 import { usePageContext } from "../context/PageContext";
 
-import { FaBell, FaSearch, FaBars } from "react-icons/fa";
+import { FaBell, FaSearch, FaBars, FaSun, FaMoon } from "react-icons/fa";
 import asests from "../assets/assests";
 import { useLocation } from "react-router-dom";
 
 const TopBar = () => {
-  const { visibility, setVisibility } = usePageContext();
+  const { visibility, setVisibility, darkMode, setDarkMode } = usePageContext();
   const location = useLocation();
   console.log(location.pathname);
   return (
@@ -32,19 +32,33 @@ const TopBar = () => {
         </div>
 
         {location.pathname === "/dashboard" && (
-          <div className="hidden lg:flex  p-5 text-lg font-light">
+          <div className="hidden lg:flex ml-65  p-5 text-lg font-light">
             Main Dashboard
           </div>
         )}
         {location.pathname === "/collaboration" && (
-          <div className="hidden lg:flex p-5 text-lg font-light">
+          <div className="hidden lg:flex ml-65 p-5 text-lg font-light">
             Collaborations Rooms
           </div>
         )}
         {location.pathname === "/goals" && (
-          <div className="hidden lg:flex p-5  text-lg font-light">Goals</div>
+          <div className="hidden lg:flex p-5 ml-65  text-lg font-light">
+            Goals
+          </div>
         )}
         <div className="p-5 flex ">
+          <div
+            onClick={() => setDarkMode((prev) => !prev)}
+            className={`${
+              darkMode ? "bg-gray-900" : ""
+            } justify-center flex border p-3 border-gray-700 rounded-full cursor-pointer`}
+          >
+            {darkMode ? (
+              <FaSun className="text-white-500 size-5" />
+            ) : (
+              <FaMoon className=" size-5" />
+            )}
+          </div>
           <FaBell className="m-3 size-5 justify-center flex" />
           <div>
             <input

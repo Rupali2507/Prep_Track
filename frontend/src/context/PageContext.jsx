@@ -11,6 +11,8 @@ export const PageProvider = ({ children }) => {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [deadline, setDeadline] = useState("");
+  const [collaboration, setCollaboration] = useState([]);
+  const [darkMode, setDarkMode] = useState(true);
 
   return (
     <PageContext.Provider
@@ -27,6 +29,10 @@ export const PageProvider = ({ children }) => {
         setDeadline,
         description,
         setDescription,
+        collaboration,
+        setCollaboration,
+        darkMode,
+        setDarkMode,
       }}
     >
       {children}

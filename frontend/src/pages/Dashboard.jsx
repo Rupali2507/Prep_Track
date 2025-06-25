@@ -55,7 +55,7 @@ const Dashboard = () => {
           }lg:ml-64 `}
         >
           {/* grid 1 - spans 2 cols and 1 row */}
-          <div className="col-span-3 row-span-2 flex  bg-blue-100 border-1 border-gray-700 rounded-2xl mx-4 p-8 shadow-2xl shadow-gray-800 flex-col">
+          <div className="col-span-3 row-span-2 flex   border-1 border-gray-700 rounded-2xl mx-4 p-8 shadow-2xl shadow-gray-800 flex-col">
             <div className="w-full flex flex-col grow transition-all duration-500 gap-5">
               <div className="text-xl">Welcome back, User!!</div>
               {goals.length === 0 ? (
@@ -66,7 +66,7 @@ const Dashboard = () => {
                   </p>
                   <button
                     onClick={() => setShowAddGoal(true)}
-                    className="flex flex-col items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg shadow cursor-pointer"
+                    className="flex flex-col items-center gap-2  px-4 py-2 rounded-lg shadow cursor-pointer"
                   >
                     <FaPlusSquare className=" size-8 text-lg " />
                     <div className="px-8 py-3 border-1 border-gray-800">
@@ -179,16 +179,16 @@ const Dashboard = () => {
           </div>
 
           {/* grid 2 - normal 1x1 card */}
-          <div className=" bg-blue-100 border-1 border-gray-700 rounded-2xl mx-4 p-8 shadow-2xl shadow-gray-800"></div>
+          <div className=" border-1 border-gray-700 rounded-2xl mx-4 p-8 shadow-2xl shadow-gray-800"></div>
 
           {/* grid 3 - tall card */}
-          <div className=" bg-blue-100 border-1 border-gray-700 rounded-2xl mx-4 p-8 shadow-2xl shadow-gray-800"></div>
+          <div className=" border-1 border-gray-700 rounded-2xl mx-4 p-8 shadow-2xl shadow-gray-800"></div>
 
           {/* grid 4 - wide card */}
-          <div className=" col-span-3 bg-blue-100 border-1 border-gray-700 rounded-2xl mx-4 p-8 shadow-2xl shadow-gray-800"></div>
+          <div className=" col-span-3  border-1 border-gray-700 rounded-2xl mx-4 p-8 shadow-2xl shadow-gray-800"></div>
 
           {/* grid 5 - normal 1x1 card */}
-          <div className=" bg-blue-100 border-1 border-gray-700 rounded-2xl mx-4 p-8 shadow-2xl shadow-gray-800"></div>
+          <div className="  border-1 border-gray-700 rounded-2xl mx-4 p-8 shadow-2xl shadow-gray-800"></div>
         </div>
       </div>
     </div>
