@@ -7,11 +7,13 @@ import Goals from "./pages/Goals";
 import CollabRooms from "./pages/CollabRooms";
 import { ToastContainer } from "react-toastify";
 import { usePageContext } from "./context/PageContext";
+import Login from "./pages/Login";
+import Signin from "./pages/Signin";
 
 const App = () => {
   const { darkMode } = usePageContext();
   return (
-    <div className={`${darkMode ? "bg-[#13151a] text-white" : "bg-[#f4f0f7]"}`}>
+    <div className={`${darkMode ? "bg-[#13151a] text-white" : ""}`}>
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -23,6 +25,8 @@ const App = () => {
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/goals" element={<Goals />} />
         <Route path="/collaboration" element={<CollabRooms />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/signin" element={<Signin />} />
       </Routes>
     </div>
   );

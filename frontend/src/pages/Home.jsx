@@ -30,10 +30,10 @@ const Home = () => {
         </div>
         <div className="flex items-center justify-center text-sm flex-col gap-2">
           <p>They trusts us</p>
-          <p className="flex gap-2 items-center">
+          <div className="flex gap-2 items-center">
             <FaStar /> <FaStar /> <FaStar /> <FaStar /> <FaStarHalf />{" "}
             <p>4.5+</p>
-          </p>
+          </div>
         </div>
 
         {/* Glimpse of DashBoard */}

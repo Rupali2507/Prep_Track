@@ -3,13 +3,12 @@ import asests from "../assets/assests";
 import { FaBars, FaSun, FaMoon, FaCut, FaTimes } from "react-icons/fa";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { useNavigate } from "react-router-dom";
+
 import { usePageContext } from "../context/PageContext";
 
 const NavBar = () => {
-  const navigate = useNavigate();
   const [navmenu, setnavmenu] = useState(false);
-  const { darkMode, setDarkMode } = usePageContext();
+  const { darkMode, setDarkMode, navigate } = usePageContext();
   return (
     <div
       className={`flex justify-between w-full lg:px-10 absolute shadow-xs shadow-gray-500 ${
@@ -21,8 +20,18 @@ const NavBar = () => {
           <img className="h-[35px]" src={asests.logo} alt="" />
         </div>
         <div className="hidden lg:flex">
-          <div className=" flex items-center p-5 text-md  "> Home </div>
-          <div className=" flex items-center p-5 text-md">About</div>
+          <div
+            onClick={() => navigate("/")}
+            className=" flex items-center p-5 text-md cursor-pointer "
+          >
+            Home
+          </div>
+          <div
+            onClick={() => navigate("/about")}
+            className=" flex items-center p-5 text-md cursor-pointer"
+          >
+            About
+          </div>
           <div
             onClick={() => navigate("/dashboard")}
             className=" flex items-center p-5 text-md cursor-pointer"
@@ -85,6 +94,7 @@ const NavBar = () => {
             )}
           </div>
           <div
+            onClick={() => navigate("/login")}
             className={`${
               darkMode ? "bg-[#00FFFF] text-black" : "bg-[#456789] text-white"
             } px-10 py-1 shadow-black shadow-sm rounded-2xl cursor-pointer`}
@@ -92,6 +102,7 @@ const NavBar = () => {
             Login
           </div>
           <div
+            onClick={() => navigate("/signin")}
             className={`${
               darkMode ? "bg-[#00FFFF] text-black" : "bg-[#456789] text-white"
             } px-10 py-1 shadow-black shadow-sm  rounded-2xl cursor-pointer`}
@@ -111,10 +122,16 @@ const NavBar = () => {
             className=" overflow-hidden absolute w-full   backdrop-blur-2xl top-20 border-b-1 border-gray-700"
           >
             <div className="">
-              <div className=" flex justify-center items-center p-5 text-lg cursor-pointer  ">
+              <div
+                onClick={() => navigate("/")}
+                className=" flex justify-center items-center p-5 text-lg cursor-pointer  "
+              >
                 Home
               </div>
-              <div className=" flex justify-center items-center p-5 text-lg cursor-pointer">
+              <div
+                onClick={() => navigate("/about")}
+                className=" flex justify-center items-center p-5 text-lg cursor-pointer"
+              >
                 About
               </div>
               <div className=" flex items-center p-5 justify-center text-lg cursor-pointer">
@@ -125,6 +142,7 @@ const NavBar = () => {
               </div>
               <div className="flex  items-center justify-center p-5  text-lg gap-5">
                 <div
+                  onClick={() => navigate("/login")}
                   className={`${
                     darkMode
                       ? "bg-[#00FFFF] text-black"
@@ -135,6 +153,7 @@ const NavBar = () => {
                 </div>
 
                 <div
+                  onClick={() => navigate("/signin")}
                   className={`${
                     darkMode
                       ? "bg-[#00FFFF] text-black"

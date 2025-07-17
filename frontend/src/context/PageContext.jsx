@@ -1,4 +1,5 @@
 import { createContext, useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const PageContext = createContext();
 
@@ -13,6 +14,7 @@ export const PageProvider = ({ children }) => {
   const [deadline, setDeadline] = useState("");
   const [collaboration, setCollaboration] = useState([]);
   const [darkMode, setDarkMode] = useState(true);
+  const navigate = useNavigate();
 
   return (
     <PageContext.Provider
@@ -33,6 +35,7 @@ export const PageProvider = ({ children }) => {
         setCollaboration,
         darkMode,
         setDarkMode,
+        navigate,
       }}
     >
       {children}
