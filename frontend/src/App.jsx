@@ -11,11 +11,11 @@ import Login from "./pages/Login";
 import Signin from "./pages/Signin";
 import ProtectedRoute from "./components/ProtectedRoute";
 import RedirectIfLoggedIn from "./components/RedirectIfLoggedIn";
+import About from "./pages/About";
 
 const App = () => {
-  const { darkMode } = usePageContext();
   return (
-    <div className={`${darkMode ? "bg-[#13151a] text-white" : ""}`}>
+    <div>
       <ToastContainer
         position="top-right"
         autoClose={3000}
@@ -50,6 +50,7 @@ const App = () => {
             </RedirectIfLoggedIn>
           }
         />
+        <Route path="/about" element={<About />} />
       </Routes>
     </div>
   );

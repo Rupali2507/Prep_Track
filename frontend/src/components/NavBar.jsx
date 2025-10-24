@@ -8,18 +8,17 @@ import { usePageContext } from "../context/PageContext";
 
 const NavBar = () => {
   const [navmenu, setnavmenu] = useState(false);
-  const { darkMode, setDarkMode, navigate } = usePageContext();
+  const { navigate } = usePageContext();
+
   return (
     <div
-      className={`flex justify-between w-full lg:px-10 absolute shadow-xs shadow-gray-500 ${
-        darkMode ? "" : "bg-[#898a8d]"
-      }`}
+      className={` fixed flex justify-between w-full lg:px-10  shadow-xs shadow-gray-500  bg-gray-900`}
     >
       <div className="flex justify-between lg:w-2/4 ">
         <div className=" flex items-center pl-5">
           <img className="h-[35px]" src={asests.logo} alt="" />
         </div>
-        <div className="hidden lg:flex">
+        <div className="hidden lg:flex text-white">
           <div
             onClick={() => navigate("/")}
             className=" flex items-center p-5 text-md cursor-pointer "
@@ -55,18 +54,6 @@ const NavBar = () => {
           </motion.div>
         ) : (
           <div className="flex lg:hidden  items-center">
-            <div
-              onClick={() => setDarkMode((prev) => !prev)}
-              className={`${
-                darkMode ? "bg-gray-900" : ""
-              } justify-center flex border  border-gray-700 rounded-full cursor-pointer`}
-            >
-              {darkMode ? (
-                <FaSun className="text-white-500 size-5 m-3" />
-              ) : (
-                <FaMoon className=" size-5 m-3" />
-              )}
-            </div>
             <motion.div
               key="open"
               initial={{ opacity: 0, rotate: 90 }}
@@ -75,37 +62,24 @@ const NavBar = () => {
               transition={{ duration: 0.3 }}
               onClick={() => setnavmenu(true)}
             >
-              <FaBars className=" items-center m-6 size-6 cursor-pointer" />
+              <FaBars
+                color="white"
+                className=" items-center m-6 size-6 cursor-pointer "
+              />
             </motion.div>
           </div>
         )}
 
         <div className=" hidden lg:flex items-center p-8 gap-4 ">
           <div
-            onClick={() => setDarkMode((prev) => !prev)}
-            className={`${
-              darkMode ? "bg-gray-900" : ""
-            } justify-center flex border p-3 border-gray-700 rounded-full cursor-pointer`}
-          >
-            {darkMode ? (
-              <FaSun className="text-white-500 size-5" />
-            ) : (
-              <FaMoon className=" size-5" />
-            )}
-          </div>
-          <div
             onClick={() => navigate("/login")}
-            className={`${
-              darkMode ? "bg-[#00FFFF] text-black" : "bg-[#456789] text-white"
-            } px-10 py-1 shadow-black shadow-sm rounded-2xl cursor-pointer`}
+            className={`bg-blue-900 text-white px-10 py-2 shadow-black shadow-sm rounded-xl cursor-pointer`}
           >
             Login
           </div>
           <div
             onClick={() => navigate("/signup")}
-            className={`${
-              darkMode ? "bg-[#00FFFF] text-black" : "bg-[#456789] text-white"
-            } px-10 py-1 shadow-black shadow-sm  rounded-2xl cursor-pointer`}
+            className={`border-2 bg-gray-900 border-blue-900 text-white px-10 py-2 shadow-black shadow-sm  rounded-xl cursor-pointer`}
           >
             Signup
           </div>
@@ -119,7 +93,7 @@ const NavBar = () => {
             animate={{ height: "auto", opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 1, ease: "easeInOut" }}
-            className=" overflow-hidden absolute w-full   backdrop-blur-2xl top-20 border-b-1 border-gray-700"
+            className=" overflow-hidden absolute w-full   backdrop-blur-2xl top-20 border-b-1 border-gray-700 text-white"
           >
             <div className="">
               <div
@@ -143,22 +117,14 @@ const NavBar = () => {
               <div className="flex  items-center justify-center p-5  text-lg gap-5">
                 <div
                   onClick={() => navigate("/login")}
-                  className={`${
-                    darkMode
-                      ? "bg-[#00FFFF] text-black"
-                      : "bg-[#456789] text-white"
-                  } px-15 py-1 border rounded-2xl cursor-pointer`}
+                  className={`bg-blue-900 text-white px-15 py-1 border rounded-2xl cursor-pointer`}
                 >
                   Login
                 </div>
 
                 <div
                   onClick={() => navigate("/signup")}
-                  className={`${
-                    darkMode
-                      ? "bg-[#00FFFF] text-black"
-                      : "bg-[#456789] text-white"
-                  } px-15 py-1 border rounded-2xl cursor-pointer`}
+                  className={`bg-blue-900 px-15 py-1 border rounded-2xl cursor-pointer text-white`}
                 >
                   {" "}
                   Signup

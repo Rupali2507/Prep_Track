@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import { api } from "../api/apiClient";
 
 const Login = () => {
-  const { darkmode, navigate, setUser } = usePageContext();
+  const { navigate, setUser } = usePageContext();
   const [email, setemail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setloading] = useState(false);
@@ -43,10 +43,10 @@ const Login = () => {
   return (
     <>
       <NavBar />
-      <div className="h-screen flex justify-center items-center">
+      <div className="h-screen flex justify-center text-white items-center bg-gray-900">
         <form
           onSubmit={handleUserLogin}
-          className={`  border-2   border-[#355050] rounded-xl p-10 gap-5 flex flex-col  items-center`}
+          className={`  border-2   border-[#355050] rounded-xl p-10 gap-5 flex flex-col  items-center text-white`}
         >
           <div className={` pb-5 text-2xl`}>Login</div>
 
@@ -56,7 +56,7 @@ const Login = () => {
             onChange={(e) => setemail(e.target.value)}
             placeholder="Email"
             required
-            className="border border-gray-500 px-4 pr-20 py-2 rounded"
+            className="border border-gray-500 px-4 pr-20 py-2 rounded text-white"
           />
           <input
             type="password"

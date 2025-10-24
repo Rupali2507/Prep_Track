@@ -49,7 +49,7 @@ const Signin = () => {
   return (
     <>
       <NavBar />
-      <div className="h-screen flex justify-center items-center">
+      <div className="h-screen flex justify-center items-center bg-gray-900 text-white">
         <form
           onSubmit={handleSignup}
           className="border-2 border-[#355050] rounded-xl p-10 gap-5 flex flex-col items-center"
