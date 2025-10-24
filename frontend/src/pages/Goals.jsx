@@ -1,71 +1,81 @@
 import React from "react";
-import NavBar from "../components/NavBar";
 import SideBar from "../components/SideBar";
-import asests from "../assets/assests";
-import { usePageContext } from "../context/PageContext";
-import { FaBars } from "react-icons/fa";
 import TopBar from "../components/TopBar";
+import { usePageContext } from "../context/PageContext";
+
 const Goals = () => {
-  const { visibility, setVisibility, goals } = usePageContext();
+  const { visibility, goals } = usePageContext();
 
   return (
-    <div className="flex h-screen">
-      <div className={`${visibility ? "flex" : "hidden"} lg:flex `}>
+    <div className="flex h-screen bg-gray-950 text-white">
+      {/* Sidebar */}
+      <div className={`${visibility ? "flex" : "hidden"} lg:flex`}>
         <SideBar />
       </div>
-      <div className="flex flex-col  w-full">
-        <div>
-          <TopBar />
-        </div>
+
+      {/* Main Content */}
+      <div className="flex flex-col w-full">
+        {/* Top Navigation */}
+        <TopBar />
+
+        {/* Grid Layout */}
         <div
-          className={`grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[18rem] ${
+          className={`grid grid-cols-1 md:grid-cols-4 gap-4 auto-rows-[18rem] transition-all duration-500 ${
             visibility ? "ml-64" : ""
-          }lg:ml-64 `}
+          } lg:ml-64`}
         >
-          {/* grid 1 - spans 2 cols and 1 row */}
-          <div className="col-span-3 row-span-2 flex   mx-4 p-8 flex-col">
-            <div className="text-2xl text-gray-400 pb-3 pl-3 font-medium">
-              Goal History
+          {/* Main Card - Goal History */}
+          <div className="col-span-3 row-span-2 ml-4 p-8 flex flex-col">
+            <div className="text-2xl text-gray-300 pb-3 pl-3 font-medium">
+              🎯 Goal History
             </div>
-            <div className="w-full flex flex-col grow transition-all duration-500 gap-5 h-full  border-1 border-gray-700 rounded-2xl shadow-2xl shadow-gray-800 ">
-              <div className="overflow-x-auto">
-                <table className="min-w-full table-auto ">
-                  <thead className="bg-gray-800 text-gray-300 ">
+
+            <div className="w-full flex flex-col grow transition-all duration-500 gap-5 h-full border border-gray-700 rounded-2xl shadow-2xl shadow-gray-800 bg-gray-900/40 backdrop-blur-sm">
+              <div className="overflow-x-auto rounded-lg">
+                <table className="min-w-full table-auto">
+                  <thead className="bg-gray-800 text-gray-300">
                     <tr>
-                      <th className=" border-0 border-r-2 border-gray-900  px-4 py-2 rounded-tl-2xl text-left">
+                      <th className="px-4 py-2 text-left border-r border-gray-900 rounded-tl-2xl">
                         Deadline
                       </th>
-                      <th className=" px-4 py-2 text-left border-r-2 border-gray-900">
+                      <th className="px-4 py-2 text-left border-r border-gray-900">
                         Goal
                       </th>
-                      <th className="border-gray-900   px-4 py-2 text-left">
+                      <th className="px-4 py-2 text-left border-r border-gray-900">
                         Description
                       </th>
-                      <th className="border-0 border-gray-900 rounded-tr-2xl  px-4 py-2 text-left">
+                      <th className="px-4 py-2 text-left rounded-tr-2xl">
                         Status
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="text-gray-900 dark:text-gray-100">
+                  <tbody className="text-gray-200">
                     {goals.length === 0 ? (
                       <tr>
                         <td
-                          colSpan="3"
+                          colSpan="4"
                           className="text-center py-6 text-gray-500 text-xl"
                         >
                           🚫 No goals added yet
                         </td>
                       </tr>
                     ) : (
-                      goals.map((user) => (
+                      goals.map((goal) => (
                         <tr
-                          key={user.id}
-                          className="hover:bg-gray-50 dark:hover:bg-gray-700 transition"
+                          key={goal.id}
+                          className="hover:bg-gray-800/60 transition"
                         >
-                          <td className="border px-4 py-2">{user.deadline}</td>
-                          <td className="border px-4 py-2">{user.title}</td>
-                          <td className="border px-4 py-2">
-                            {user.description}
+                          <td className="border border-gray-800 px-4 py-2">
+                            {goal.deadline}
+                          </td>
+                          <td className="border border-gray-800 px-4 py-2">
+                            {goal.title}
+                          </td>
+                          <td className="border border-gray-800 px-4 py-2">
+                            {goal.description}
+                          </td>
+                          <td className="border border-gray-800 px-4 py-2 text-green-400">
+                            {goal.status || "Pending"}
                           </td>
                         </tr>
                       ))
@@ -76,8 +86,7 @@ const Goals = () => {
             </div>
           </div>
 
-          {/* grid 2 - normal 1x1 card */}
-          <div className=" border-1 border-gray-700 rounded-2xl mx-4 p-8 shadow-2xl shadow-gray-800"></div>
+          <div className="  border   mt-20 mr-10 rounded-2xl border-gray-600 shadow-2xl shadow-gray-800"></div>
         </div>
       </div>
     </div>

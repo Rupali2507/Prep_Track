@@ -14,6 +14,8 @@ export const PageProvider = ({ children }) => {
   const [deadline, setDeadline] = useState("");
   const [collaboration, setCollaboration] = useState([]);
   const [darkMode, setDarkMode] = useState(true);
+  const [user, setUser] = useState(localStorage.getItem("username") || "");
+
   const navigate = useNavigate();
 
   return (
@@ -36,6 +38,8 @@ export const PageProvider = ({ children }) => {
         darkMode,
         setDarkMode,
         navigate,
+        user,
+        setUser,
       }}
     >
       {children}

@@ -10,13 +10,22 @@ import {
 } from "react-icons/fa";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 import asests from "../assets/assests";
 import { usePageContext } from "../context/PageContext";
 
 const SideBar = () => {
-  const navigate = useNavigate();
   const { visibility, setVisibility } = usePageContext();
+  const navigate = useNavigate();
+  const handleLogout = async () => {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+
+    toast.info("Logged out successfully!");
+
+    navigate("/login", { replace: true });
+  };
 
   const location = useLocation();
   return (
@@ -92,7 +101,12 @@ const SideBar = () => {
             <FaCog />
             Settings
           </div>
-          <div className=" w-full pb-5 flex items-center gap-8 cursor-pointer">
+          <div
+            onClick={() => {
+              handleLogout();
+            }}
+            className=" w-full pb-5 flex items-center gap-8 cursor-pointer"
+          >
             <FaSignOutAlt />
             Logout
           </div>

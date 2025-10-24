@@ -102,12 +102,12 @@ const NavBar = () => {
             Login
           </div>
           <div
-            onClick={() => navigate("/signin")}
+            onClick={() => navigate("/signup")}
             className={`${
               darkMode ? "bg-[#00FFFF] text-black" : "bg-[#456789] text-white"
             } px-10 py-1 shadow-black shadow-sm  rounded-2xl cursor-pointer`}
           >
-            SignIn
+            Signup
           </div>
         </div>
         <div></div>
@@ -153,7 +153,7 @@ const NavBar = () => {
                 </div>
 
                 <div
-                  onClick={() => navigate("/signin")}
+                  onClick={() => navigate("/signup")}
                   className={`${
                     darkMode
                       ? "bg-[#00FFFF] text-black"
@@ -161,7 +161,7 @@ const NavBar = () => {
                   } px-15 py-1 border rounded-2xl cursor-pointer`}
                 >
                   {" "}
-                  SignIn
+                  Signup
                 </div>
               </div>
             </div>

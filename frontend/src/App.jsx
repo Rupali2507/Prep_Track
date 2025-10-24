@@ -9,6 +9,8 @@ import { ToastContainer } from "react-toastify";
 import { usePageContext } from "./context/PageContext";
 import Login from "./pages/Login";
 import Signin from "./pages/Signin";
+import ProtectedRoute from "./components/ProtectedRoute";
+import RedirectIfLoggedIn from "./components/RedirectIfLoggedIn";
 
 const App = () => {
   const { darkMode } = usePageContext();
@@ -22,11 +24,32 @@ const App = () => {
       />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route
+          path="/dashboard"
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
+        />
         <Route path="/goals" element={<Goals />} />
         <Route path="/collaboration" element={<CollabRooms />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signin" element={<Signin />} />
+        <Route
+          path="/login"
+          element={
+            <RedirectIfLoggedIn>
+              <Login />
+            </RedirectIfLoggedIn>
+          }
+        />
+        <Route
+          path="/signup"
+          element={
+            <RedirectIfLoggedIn>
+              <Signin />
+            </RedirectIfLoggedIn>
+          }
+        />
       </Routes>
     </div>
   );

@@ -2,8 +2,11 @@ import React from "react";
 import { FaArrowRight, FaStar, FaStarHalf } from "react-icons/fa";
 import NavBar from "../components/NavBar";
 import asests from "../assets/assests";
+import { Navigate } from "react-router-dom";
+import { usePageContext } from "../context/PageContext";
 
 const Home = () => {
+  const { navigate } = usePageContext();
   return (
     <>
       <NavBar />
@@ -18,6 +21,7 @@ const Home = () => {
             every day.
           </p>
           <button
+            onClick={() => navigate("/signin")}
             style={{
               backgroundColor: "#00FFFF",
               color: "black",
