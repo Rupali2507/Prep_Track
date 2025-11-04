@@ -17,6 +17,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/user", userRouter);
 connectDB();
-app.listen(process.env.PORT || 5000, () => {
-  console.log(`Server is running on port ${process.env.PORT || 5000}`);
-});
+// app.listen(process.env.PORT || 5000, () => {
+//   console.log(`Server is running on port ${process.env.PORT || 5000}`);
+// });
+export default app;
