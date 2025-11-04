@@ -2,6 +2,7 @@ import userModel from "../models/userModel.js";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
+import { sendEmail } from "../utility/sendEmail.js";
 
 // Validation schemas
 const registerSchema = z.object({
@@ -104,6 +105,80 @@ export const getDashboard = async (req, res) => {
     const user = await userModel.findById(userId).select("-password");
     if (!user) return res.status(404).json({ message: "User not found" });
     res.status(200).json({ user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Server error" });
+  }
+};
+export const forgotPassword = async (req, res) => {
+  try {
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ message: "Email is required" });
+
+    const user = await userModel.findOne({ email });
+    if (!user) return res.status(404).json({ message: "User not found" });
+
+    const resetToken = jwt.sign(
+      { id: user._id },
+      process.env.JWT_RESET_PASSWORD_SECRET,
+      { expiresIn: "10m" }
+    );
+
+    user.resetPasswordToken = resetToken;
+    user.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
+    await user.save();
+
+    const resetUrl = `${process.env.CLIENT_URL}/reset-password?token=${resetToken}`;
+
+    const message = `
+      <h1>Password Reset Request</h1>
+      <p>Hello ${user.name},</p>
+      <p>You requested to reset your password. Click the link below:</p>
+      <a href="${resetUrl}" target="_blank">${resetUrl}</a>
+      <p>This link will expire in 10 minutes.</p>
+    `;
+
+    await sendEmail({
+      to: user.email,
+      subject: "Password Reset Request",
+      html: message,
+    });
+
+    res
+      .status(200)
+      .json({ success: true, message: "Reset link sent to your email" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ success: false, message: "Server error" });
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  try {
+    const { token } = req.params;
+    const { newPassword } = req.body;
+
+    if (!token || !newPassword)
+      return res.status(400).json({ message: "Missing token or password" });
+
+    // Verify token
+    const decoded = jwt.verify(token, process.env.JWT_RESET_PASSWORD_SECRET);
+
+    const user = await userModel.findOne({
+      _id: decoded.id,
+      resetPasswordToken: token,
+      resetPasswordExpire: { $gt: Date.now() },
+    });
+
+    if (!user)
+      return res.status(400).json({ message: "Invalid or expired token" });
+
+    user.password = await bcrypt.hash(newPassword, 10);
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+    await user.save();
+
+    res.status(200).json({ message: "Password reset successful" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: "Server error" });

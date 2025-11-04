@@ -12,6 +12,8 @@ import Signin from "./pages/Signin";
 import ProtectedRoute from "./components/ProtectedRoute";
 import RedirectIfLoggedIn from "./components/RedirectIfLoggedIn";
 import About from "./pages/About";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 const App = () => {
   return (
@@ -39,6 +41,22 @@ const App = () => {
           element={
             <RedirectIfLoggedIn>
               <Login />
+            </RedirectIfLoggedIn>
+          }
+        />
+        <Route
+          path="/forgot-password"
+          element={
+            <RedirectIfLoggedIn>
+              <ForgotPassword />
+            </RedirectIfLoggedIn>
+          }
+        />
+        <Route
+          path="/reset-password"
+          element={
+            <RedirectIfLoggedIn>
+              <ResetPassword />
             </RedirectIfLoggedIn>
           }
         />

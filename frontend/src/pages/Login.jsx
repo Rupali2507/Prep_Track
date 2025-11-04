@@ -82,7 +82,13 @@ const Login = () => {
             {" "}
             Don't have account? Signup
           </p>
-          <p className="text-blue-400 cursor-pointer"> Forgot Password?</p>
+          <p
+            onClick={() => navigate("/forgot-password")}
+            className="text-blue-400 cursor-pointer"
+          >
+            {" "}
+            Forgot Password?
+          </p>
         </form>
       </div>
     </>

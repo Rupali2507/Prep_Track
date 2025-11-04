@@ -43,4 +43,7 @@ const request = async (endpoint, method = "GET", data = null, token = null) => {
 export const api = {
   signup: (data) => request("/user/signup", "POST", data),
   signin: (data) => request("/user/signin", "POST", data),
+  forgotPassword: (data) => request("/user/forgot-password", "POST", data),
+  resetPassword: (token, data) =>
+    request(`/user/reset-password/${token}`, "POST", data),
 };
