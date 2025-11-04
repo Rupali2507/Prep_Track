@@ -1,5 +1,5 @@
 import { toast } from "react-toastify";
-const BASE_URL = "https://prep-track-nine.vercel.app/api";
+const BASE_URL = "https://prep-track-rtmf.vercel.app/api";
 
 const request = async (endpoint, method = "GET", data = null, token = null) => {
   const headers = { "Content-Type": "application/json" };
