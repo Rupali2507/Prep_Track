@@ -15,9 +15,14 @@ const request = async (endpoint, method, data = null, token = null) => {
   console.log("done");
   try {
     const response = await fetch(`${BASE_URL}${endpoint}`, config);
-    console.log(response);
+    console.log("🚀 Fetch Request:", {
+      url: `${BASE_URL}${endpoint}`,
+      method,
+      headers,
+      body: data,
+    });
+
     const result = await response.json();
-    console.log(result);
     if (!response.ok) {
       if (result.errors && Array.isArray(result.errors)) {
         const errorMessages = result.errors
@@ -51,4 +56,6 @@ export const collabApi = {
     request(`/rooms/${roomId}/assign-task`, "POST", data, token),
   sendMessage: (roomId, data, token) =>
     request(`/rooms/${roomId}/message`, "POST", data, token),
+  deleteRoom: (roomId, token) =>
+    request(`/rooms/${roomId}`, "DELETE", null, token),
 };

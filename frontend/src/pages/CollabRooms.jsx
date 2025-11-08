@@ -52,14 +52,9 @@ const CollabRooms = () => {
 
   const handleDelete = async (roomId) => {
     try {
-      const res = await fetch(
-        `https://prep-track-rtmf.vercel.app/api/rooms/${roomId}`,
-        {
-          method: "DELETE",
-          headers: { Authorization: `Bearer ${token}` },
-        }
-      );
-      const data = await res.json();
+      const data = await collabApi.deleteRoom(roomId, token);
+
+      console.log(data);
       if (res.ok) {
         toast.success("Room deleted");
         setRooms((prev) => prev.filter((r) => r._id !== roomId));
