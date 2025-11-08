@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from "react";
-import SideBar from "../components/SideBar";
+import React, { useEffect, useState } from "react";
 import { usePageContext } from "../context/PageContext";
-import TopBar from "../components/TopBar";
+import { collabApi } from "../api/apiCollab";
+import { toast } from "react-toastify";
 import {
-  FaHandshake,
-  FaTrashAlt,
-  FaComments,
   FaArrowLeft,
+  FaHandshake,
+  FaComments,
+  FaTrashAlt,
 } from "react-icons/fa";
+import SideBar from "../components/SideBar";
+import TopBar from "../components/TopBar";
 
 const CollabRooms = () => {
   const { visibility } = usePageContext();
@@ -15,91 +17,87 @@ const CollabRooms = () => {
   const [rooms, setRooms] = useState([]);
   const [selectedRoom, setSelectedRoom] = useState(null);
   const [formData, setFormData] = useState({
-    roomName: "",
+    name: "",
     topic: "",
-    participants: "",
+    description: "",
   });
   const [chatMessages, setChatMessages] = useState([]);
   const [messageInput, setMessageInput] = useState("");
+  const token = localStorage.getItem("token");
 
-  // Load from localStorage
   useEffect(() => {
-    const storedRooms = JSON.parse(localStorage.getItem("collabRooms")) || [];
-    setRooms(storedRooms);
-  }, []);
-
-  // Save rooms to localStorage whenever they change
-  useEffect(() => {
-    localStorage.setItem("collabRooms", JSON.stringify(rooms));
-  }, [rooms]);
-
-  // Save chat per room
-  useEffect(() => {
-    if (selectedRoom) {
-      const savedChat =
-        JSON.parse(localStorage.getItem(`chat_${selectedRoom.id}`)) || [];
-      setChatMessages(savedChat);
-    }
-  }, [selectedRoom]);
+    const fetchRooms = async () => {
+      const data = await collabApi.getRooms(token);
+      if (data?.rooms) setRooms(data.rooms);
+    };
+    fetchRooms();
+  }, [token]);
 
   const handleChange = (e) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    const newRoom = {
-      id: Date.now(),
-      ...formData,
-      createdAt: new Date().toLocaleString(),
-    };
-    setRooms((prev) => [...prev, newRoom]);
-    setFormData({ roomName: "", topic: "", participants: "" });
-    setShowForm(false);
+    const data = await collabApi.createRoom(formData, token);
+    if (data?.room) {
+      toast.success("Room created successfully!");
+      setRooms((prev) => [...prev, data.room]);
+      setShowForm(false);
+      setFormData({ name: "", topic: "", description: "" });
+    } else {
+      toast.error("Failed to create room");
+    }
   };
 
-  const handleDelete = (id) => {
-    const updated = rooms.filter((r) => r.id !== id);
-    setRooms(updated);
-    localStorage.removeItem(`chat_${id}`);
+  const handleDelete = async (roomId) => {
+    try {
+      const res = await fetch(
+        `https://prep-track-rtmf.vercel.app/api/rooms/${roomId}`,
+        {
+          method: "DELETE",
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
+      const data = await res.json();
+      if (res.ok) {
+        toast.success("Room deleted");
+        setRooms((prev) => prev.filter((r) => r._id !== roomId));
+      } else toast.error(data.message);
+    } catch (error) {
+      toast.error("Server error");
+    }
   };
 
   const handleSendMessage = (e) => {
     e.preventDefault();
     if (!messageInput.trim()) return;
+
     const newMessage = {
       text: messageInput,
       sender: "You",
       time: new Date().toLocaleTimeString(),
     };
-    const updatedMessages = [...chatMessages, newMessage];
-    setChatMessages(updatedMessages);
-    localStorage.setItem(
-      `chat_${selectedRoom.id}`,
-      JSON.stringify(updatedMessages)
-    );
+
+    setChatMessages((prev) => [...prev, newMessage]);
     setMessageInput("");
   };
 
   return (
     <div className="flex h-screen bg-gray-950 text-white">
-      {/* Sidebar */}
       <div className={`${visibility ? "flex" : "hidden"} lg:flex`}>
         <SideBar />
       </div>
 
-      {/* Main Content */}
       <div className="flex flex-col w-full">
         <TopBar />
 
-        {/* If a room is selected, show chat view */}
         {selectedRoom ? (
           <div className="flex flex-col h-[90vh] mx-4 my-2 border border-gray-700 rounded-2xl shadow-2xl shadow-gray-800 bg-gray-900/50 backdrop-blur-sm">
-            {/* Header */}
             <div className="flex justify-between items-center px-6 py-4 border-b border-gray-700">
               <div>
                 <h2 className="text-2xl font-semibold text-cyan-400">
-                  {selectedRoom.roomName}
+                  {selectedRoom.name}
                 </h2>
                 <p className="text-gray-400 text-sm">{selectedRoom.topic}</p>
               </div>
@@ -111,7 +109,6 @@ const CollabRooms = () => {
               </button>
             </div>
 
-            {/* Chat Messages */}
             <div className="flex-1 overflow-y-auto p-6 space-y-3">
               {chatMessages.length === 0 ? (
                 <p className="text-gray-500 text-center">
@@ -163,7 +160,6 @@ const CollabRooms = () => {
             </form>
           </div>
         ) : (
-          // Default view (create/join room)
           <div
             className={`grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[18rem] transition-all duration-500 ${
               visibility ? "ml-64" : ""
@@ -183,7 +179,7 @@ const CollabRooms = () => {
               </button>
             </div>
 
-            {/* Right Section - Active Rooms */}
+            {/* Active Rooms */}
             <div className="border row-span-2 border-gray-700 rounded-2xl shadow-2xl shadow-gray-800 m-4 bg-gray-900/40 backdrop-blur-sm flex flex-col p-4 overflow-y-auto">
               <h3 className="text-xl font-semibold text-cyan-400 mb-3 text-center">
                 🤝 Active Rooms
@@ -196,12 +192,12 @@ const CollabRooms = () => {
                 <ul className="space-y-3">
                   {rooms.map((room) => (
                     <li
-                      key={room.id}
+                      key={room._id}
                       className="border border-gray-700 rounded-xl p-3 bg-gray-800/50 hover:bg-gray-800 transition flex flex-col gap-2"
                     >
                       <div className="flex justify-between items-center">
                         <h4 className="font-semibold text-gray-200 text-lg">
-                          {room.roomName}
+                          {room.name}
                         </h4>
                         <div className="flex items-center gap-3">
                           <button
@@ -212,7 +208,7 @@ const CollabRooms = () => {
                             <FaComments />
                           </button>
                           <button
-                            onClick={() => handleDelete(room.id)}
+                            onClick={() => handleDelete(room._id)}
                             className="text-red-500 hover:text-red-400"
                             title="Delete Room"
                           >
@@ -221,13 +217,8 @@ const CollabRooms = () => {
                         </div>
                       </div>
                       <p className="text-sm text-gray-400">{room.topic}</p>
-                      {room.participants && (
-                        <p className="text-xs text-gray-500 italic">
-                          👥 {room.participants}
-                        </p>
-                      )}
                       <p className="text-xs text-gray-500 text-right">
-                        🕒 {room.createdAt}
+                        🕒 {new Date(room.createdAt).toLocaleString()}
                       </p>
                     </li>
                   ))}
@@ -238,7 +229,6 @@ const CollabRooms = () => {
         )}
       </div>
 
-      {/* Modal for New Collaboration */}
       {showForm && (
         <div className="fixed inset-0 flex items-center justify-center bg-black/70 backdrop-blur-sm z-50">
           <div className="bg-gray-900 border border-gray-700 rounded-2xl p-8 w-[90%] max-w-md shadow-2xl">
@@ -250,8 +240,8 @@ const CollabRooms = () => {
                 <label className="block text-gray-300 mb-1">Room Name</label>
                 <input
                   type="text"
-                  name="roomName"
-                  value={formData.roomName}
+                  name="name"
+                  value={formData.name}
                   onChange={handleChange}
                   required
                   className="w-full p-2 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-cyan-500"
@@ -269,14 +259,13 @@ const CollabRooms = () => {
                 />
               </div>
               <div>
-                <label className="block text-gray-300 mb-1">
-                  Participants (comma separated)
-                </label>
+                <label className="block text-gray-300 mb-1">Description</label>
                 <input
                   type="text"
-                  name="participants"
-                  value={formData.participants}
+                  name="description"
+                  value={formData.description}
                   onChange={handleChange}
+                  placeholder="Short description"
                   className="w-full p-2 rounded-lg bg-gray-800 text-white border border-gray-700 focus:outline-none focus:ring-2 focus:ring-cyan-500"
                 />
               </div>
